@@ -1,0 +1,135 @@
+---
+title: "課?<a0>?練習模<e7><89><88>"
+author: "Joyce"
+date: "2020-10-20"
+output: output_format
+params:
+  id: "410973049"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Your code
+
+```{r}
+library(lubridate)
+```
+
+```{r}
+tpeTime <- ymd_hms("2020-03-18 13:52:40",
+        tz="Asia/Taipei") # 年月日_時分秒
+```
+
+```{r}
+pgTime <- mdy_hms("Mar.18, 2020, 05:52:40",
+                  tz="Europe/Lisbon") #月日年_時分秒
+```
+
+```{r}
+tpeTimeVector <- 
+  ymd_hms(
+    c("2020-03-18 13:52:40",
+      "2020-03-11 03:12:40"),
+    tz="Asia/Taipei"
+    )
+```
+
+## type/class
+
+```{r}
+typeof(tpeTime ) # double 數值裡面非整數的儲存方式
+class(tpeTime) # ct 日期 t time
+```
+
+```{r}
+tpeTime
+print(tpeTime) # 以此形式印給人看 字串
+cat(tpeTime) # 呈現背後電腦怎麼存 反映電腦記憶的值 
+ # 秒數 指和一個時間的原點(1970年1月1日 00:00:00)來比過了多少秒
+```
+```{r}
+as.numeric(tpeTime)
+```
+
+```{r}
+print(as.character(tpeTime)) # 沒有時區
+cat(as.character(tpeTime)) # 給人閱讀
+```
+## let computer tell us time
+
+Human tells computer
+
+```{r}
+tpeTime2 <- ymd_hms("2010-03-18 16:52:40",
+        tz="Asia/Taipei")
+pgTime2 <- mdy_hms("Mar.01, 2020, 03:52:40",
+                  tz="Europe/Lisbon")
+```
+
+computer tells human
+```{r}
+tpeTime3 <- with_tz(tpeTime2, tzone="America/New_York") #重新換成想要的時區
+tpeTime2
+tpeTime3
+typeof(tpeTime3)
+class(tpeTime3)
+```
+
+"2010-03-18 16:52:40" taipei 
+
+```{r}
+tpeTime2
+```
+
+"2010-03-18 16:52:40" taipei => New York # 同時間 不同時區
+```{r}
+tpeTime3
+```
+
+```{r}
+cat(tpeTime2)
+cat(tpeTime3) # 秒數一樣 = 時間一樣
+```
+
+```{r}
+pgTime3 <- 
+  with_tz(pgTime2, tzone="America/New_York")
+
+pgTime2
+pgTime3
+```
+```{r}
+tpeTime3 # DT: daylight time 日光節約時間 
+pgTime3 # ST: standard time 標準（非日光節約時間）
+```
+```{r}
+tpeTime3 - pgTime3 # 轉成同時區相減
+```
+
+```{r}
+tpeTime2 - pgTime2 #不同時區仍可直接加減
+```
+
+```{r}
+tpeTime
+class(tpeTime)
+as.character(tpeTime) #沒時區
+```
+
+```{r}
+tpeTime_utc <- with_tz(tpeTime,tzone = "UTC")
+tpeTime_utc
+as.character(tpeTime_utc)
+```
+
+```{r}
+tpeTime_iso8601 <- format_ISO8601(tpeTime, usetz=T) #把電腦懂得時間 變成字串(符和國際規則)
+tpeTime_iso8601
+```
+
+```{r}
+tpeTime <- ymd_hms(tpeTime_iso8601)
+```
+
