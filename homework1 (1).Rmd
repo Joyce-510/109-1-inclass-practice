@@ -186,6 +186,18 @@ class(Game5Time)
 
 ```{r ans14}
 # TpeJason
+date <-"Oct. 9"
+starttime <- "21:00"
+
+
+starttime <- ymd_hm("2020,oct.9,21:00",tz="America/New_York")
+Timestamp  <- with_tz(starttime,tz="Asia/Taipei") 
+# with_tz 轉換時區 某地區的一個時間=另一個地區的何時?前提是電腦已經懂了你輸入的時間 (即前面的lubridate設定)
+
+print(starttime)
+print(Timestamp)
+
+save(Timestamp,file="TpeJason")
 ```
 
 ### 1.5 Later Time
@@ -194,6 +206,8 @@ Louis臨時被要求整理財報資料，而在比賽開始後的15分鐘出現�
 
 ```{r ans15}
 # ParisLouis
+
+
 ```
 
 ## 2. Factor
