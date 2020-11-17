@@ -1,0 +1,188 @@
+---
+title: "課?<a0>?練習模<e7><89><88>"
+author: "Joyce"
+date: "2020-11-17"
+output: output_format
+params:
+  id: "410973049"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Your code
+
+-----------------------------------
+
+```{r}
+AA = c(Mary=176, John=188, Jenny= 165, Kate=170)
+LL = list(
+  Mary=list(176,"Taipei"),
+  John=list(188,"New Taipei"),
+  Jenny=list(165,"Taichung"),
+  Kate=list(170,"Hualien")
+)
+```
+
+## extract 1 element 選一個元素
+
+```{r}
+AA[[1]] # 只有值 沒有名稱
+AA[1] # 用一個中括號取 名字還會在 = remove其餘
+```
+
+```{r}
+str(LL)
+```
+
+```{r}
+str(LL[[1]])
+str(LL[1])
+```
+
+```{r}
+LL[[1]] # 只有值 沒有名稱
+LL[1]
+```
+
+-----------------------------------
+
+# 賦予不存在存在值 方法:取出不存在
+```{r}
+a <- c(2, 5, 7)
+a[[4]]
+length(a) # 看a長度
+```
+
+```{r}
+a[[4]] <- 8
+print(a)
+```
+
+# element names = features 各式特徵值
+
+```{r}
+restaurant=restaurant_value
+date=date_value
+order=order_value
+total=total_value
+```
+
+```{r}
+blue1 = list(
+  item="番茄牛丼",
+  quantity=1
+)
+blue2 = list(
+  item="起司番茄牛丼",
+  quantity=1
+)
+
+order_value=list(
+  blue1,
+  blue2
+)
+
+library(lubridate)
+oneOrder = list(
+  restaurant = "すき家 Sukiya (新北三峽店)",
+  date = lubridate::mdy("Nov 10, 2020"),
+  order=order_value,
+  total = 328
+)
+
+```
+
+```{r}
+restaurant = "すき家 Sukiya (新北三峽店)"
+date = lubridate::mdy("Nov 10, 2020")
+order = list(
+  list(
+    item="蕃茄牛丼",
+    quantity=1
+  ) # 這裡少了一筆 "起司蕃茄牛丼"
+)
+total = 328
+oneOrder <- list(
+  "restaurant"=restaurant,
+  "date"=date,
+  "order"=order,
+  "total"=total
+)
+```
+
+```{r}
+str(oneOrder)
+View(oneOrder)
+```
+
+# 新增一個元素值 example
+
+```{r}
+#step1 retrieve non-existence
+oneOrder[["order"]][[2]]
+#step2 assign value
+blue2 = list(
+  item="起司番茄牛丼",
+  quantity=1
+)
+oneOrder[["order"]][[2]]<- blue2 
+```
+
+#4.2.2 新增多筆元素
+
+```{r}
+blue2 = list(
+  item="起司番茄牛丼",
+  quantity=1
+)
+```
+
+```{r}
+a <- c(2, 5, 7)
+a[c(4,5)] <- c(8,12)
+# 用一個中括號取出不存在得值(一個以上)
+print(a)
+```
+# 在order裡增加1份’牛丼飯’，1份’豬排飯’ (add new 元素)
+
+```{r}
+length(oneOrder$order)
+blue3 <- list(item="牛丼飯",quantity=1)
+
+blue4 <- oneOrder$order # 使用模版手法
+blue4$item <- "豬排飯"
+blue4$quantity <- 1
+oneOrder$order[c(3,4)] <- list(blue3, blue4) #要符合母層結構 
+
+```
+
+```{r}
+class(oneOrder) # 母層是list 所以格式必須為list
+```
+
+```{r}
+str(oneOrder)
+```
+
+```{r}
+# 取出目前已有的子元素一個當模版
+secondItem <- oneItem <- oneOrder$order[[1]] # 箭頭可以串聯
+#用一個模板可以創造多個值
+
+oneItem$item <- "牛丼飯"
+oneItem$quantity <- 1
+secondItem$item <- "豬排飯"
+secondItem$quantity <- 1
+
+oneOrder$order[newOrders] <- list(
+  oneItem, secondItem
+)
+```
+
+---------------------------
+# 修改元素內容
+
+
+
