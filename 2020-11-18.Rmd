@@ -1,0 +1,72 @@
+---
+title: "課?<a0>?練習模<e7><89><88>"
+author: "Joyce"
+date: "2020-11-18"
+output: output_format
+params:
+  id: "410973049"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Your code
+
+```{r}
+example <- list(
+  name=c("小明","小花","小新","美美"),
+  height=c(175,166,170,160),
+  weight=c(77,NA,60,43),
+  birthday=lubridate::ymd(c("1998-03-11","1999-12-22","1995-08-22","2001-10-10")),
+  hobby=c("美食 旅遊","旅遊 時尚","3C 美食","音樂 旅遊"),
+  residence=c("Taipei","New Taipei","Taichung","Kaohsiung"),
+  allowance=factor(c("0-1000","1001-2000","2000+","1001-2000")),
+  bloodType=c("A","B","B","O")
+)
+```
+
+```{r}
+df_example <- as.data.frame(example)
+```
+
+#4.4.1
+```{r}
+tr_example <- purrr::transpose(example)
+str(tr_example)
+```
+
+```{r}
+tr_tr_example <- purrr::transpose(tr_example)
+str(tr_tr_example)
+```
+
+#將tr_example轉回原本example
+
+```{r}
+library(purr)
+map(tr_tr_example)
+```
+
+#4.4.3 Extra tool [.row, .column]
+```{r}
+# 使用list的工具
+df_example$name[c(1,4)]
+
+# 使用data frame的延伸工具`[.row, .column]`
+df_example[c(1,4), "name"] # 用名稱（character）#逗點前 row ; 逗點後 column
+df_example[c(1,4), 1] # 用位置（numeric）
+df_example[c(1,4), c(T,rep(F,7))] # rep=repeat
+
+df_example[c(1),1:8] # 取1到8 若省略1:8 則從頭取到尾
+View(df_example[1, ]) # list
+df_example[1,]$hobby # character
+df_example[1,][[5]]
+df_example[1,][5] # 要看狀態 打class()
+df_example[, "name"]
+```
+
+```{r}
+
+```
+
