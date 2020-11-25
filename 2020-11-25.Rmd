@@ -1,0 +1,75 @@
+---
+title: "課?<a0>?練習模<e7><89><88>"
+author: "Joyce"
+date: "2020-11-25"
+output: output_format
+params:
+  id: "410973049"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Your code
+
+```{r}
+example <- list(
+  name=c("小明","小花","小新","美美"),
+  height=c(175,166,170,160),
+  weight=c(77,NA,60,43),
+  birthday=lubridate::ymd(c("1998-03-11","1999-12-22","1995-08-22","2001-10-10")),
+  hobby=c("美食 旅遊","旅遊 時尚","3C 美食","音樂 旅遊"),
+  residence=c("Taipei","New Taipei","Taichung","Kaohsiung"),
+  allowance=factor(c("0-1000","1001-2000","2000+","1001-2000")),
+  bloodType=c("A","B","B","O")
+)
+
+```
+
+```{r}
+str(example)
+df_example <- as.data.frame(example) #data frame
+```
+
+## 4.5 Relation Operations
+
+# 數字比較{-}
+# example裡誰的身高大於等於170{-}
+
+```{r}
+example$name[c(T,F,T,F)] # 要=T 不要=F
+```
+
+```{r}
+str(example[c("name","height")])
+
+pick_above170 <- example$height >= 170
+pick_above170
+example$height
+c(175, 166, 170, 160) >= 170
+
+example$name[pick_above170]
+```
+# example裡誰1998年(含)以後出生{-}
+```{r}
+example$birthday
+class(example$birthday)
+typeof(example$birthday)
+```
+```{r}
+print(example[c("name","birthday")])
+
+pick_after98 <- example$birthday >= lubridate::ymd("1998-01-01") 
+#比大小時 兩邊class(type)需相同
+example$name[pick_after98]
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
