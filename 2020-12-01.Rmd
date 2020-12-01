@@ -1,0 +1,164 @@
+---
+title: "課?<a0>?練習模<e7><89><88>"
+author: "Joyce"
+date: "2020-12-01"
+output: output_format
+params:
+  id: "410973049"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Your code
+
+```{r}
+example <- list(
+  name=c("小明","小花","小新","美美"),
+  height=c(175,166,170,160),
+  weight=c(77,NA,60,43),
+  birthday=lubridate::ymd(c("1998-03-11","1999-12-22","1995-08-22","2001-10-10")),
+  hobby=c("美食 旅遊","旅遊 時尚","3C 美食","音樂 旅遊"),
+  residence=c("Taipei","New Taipei","Taichung","Kaohsiung"),
+  allowance=factor(c("0-1000","1001-2000","2000+","1001-2000")),
+  bloodType=c("A","B","B","O")
+)
+```
+
+```{r}
+
+str(example)
+pick_above170 <- example$height >= 170
+pick_bloodB <- (example$bloodType == "B")
+pick_loveFood <- stringr::str_detect(example$hobby,"美食")
+pick_na <-is.na(example$weight)
+pick_after98 <- example$birthday >= lubridate::ymd("1998-01-01") 
+set_TaipeiMetro <- c("Taipei","New Taipei")
+pick_fromTaipeiMetro <- example$residence %in% set_TaipeiMetro
+
+```
+# & AND |: OR
+# 誰喜歡美食且血型為B型
+```{r}
+str(example[c("name","hobby","bloodType")])
+
+example$name[
+    pick_loveFood & pick_bloodB
+  ]
+```
+
+# 誰1998以後（含）出生或不住大台北
+
+```{r}
+example[c("name","birthday","residence")]
+
+example$name[
+  pick_after98 | !pick_fromTaipeiMetro
+]
+```
+# 誰1998以後（含）出生且住大台北且血型B型
+```{r}
+example$name[
+  pick_after98 & pick_fromTaipeiMetro & pick_bloodB
+]
+```
+
+## On factor class
+
+```{r}
+set.seed(2020)
+ages_chr <- sample(c("4以下","5-10","11-15"), 15, replace=T)
+ages_chr
+```
+
+```{r}
+unique(ages_chr) # 查看符號字面資訊有幾種可能類別
+```
+
+```{r}
+table(ages_chr) # 每一類有多少筆資料
+```
+
+```{r}
+factor(
+  字面資訊向量
+)
+```
+
+```{r}
+ages_fct1 <- 
+  factor(
+    ages_chr
+  )
+```
+
+```{r}
+ages_fct1
+```
+
+```{r}
+factor(
+  字面資訊向量,
+  levels = 類別資訊呈現時的先後順序向量
+)
+```
+
+```{r}
+ages_fct2 <- 
+  factor(
+    ages_chr,
+    levels = c("4以下","5-10","11-15")
+  )
+
+table(ages_fct1)
+table(ages_fct2)
+```
+
+```{r}
+ages_fct2[[3]] #4以下
+ages_fct2[[6]] #5-10
+ages_fct2[[3]] > ages_fct2[[6]]
+```
+
+```{r}
+factor(
+  字面資訊向量,
+  levels = 類別資訊呈現時的先後順序向量,
+  ordered = TRUE # 告訴電腦類別呈現的先後順序，即可比大小的小（先）大（後）順序
+)
+```
+
+```{r}
+ages_fct3 <- 
+  factor(
+    ages_chr,
+    levels = c("4以下","5-10","11-15"),
+    ordered = T
+  )
+```
+
+```{r}
+ages_fct3[[3]] #4以下
+ages_fct3[[6]] #5-10
+ages_fct3[[3]] > ages_fct3[[6]]
+ages_fct3[[6]] < "11-15" # 也可以用文字寫下levels中有的分類
+```
+
+```{r}
+# 忘了告訴電腦是ordered factor
+ages_fct2_order = factor(ages_fct2, ordered=T)
+ages_fct2_order
+# 也可以
+ages_fct2_order = as.ordered(ages_fct2)
+
+# 忘了告訴電腦呈現順序是"11-15","5-10","4以下"
+ages_fct3_newLevels = 
+  factor(
+    ages_fct3, 
+    levels = c("11-15","5-10","4以下")
+  )
+ages_fct3_newLevels
+is.ordered(ages_fct3_newLevels)
+```
+
