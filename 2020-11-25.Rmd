@@ -34,6 +34,8 @@ df_example <- as.data.frame(example) #data frame
 
 ## 4.5 Relation Operations
 
+# 介紹產生 「 要/不要」向量的常見手法
+
 # 數字比較{-}
 # example裡誰的身高大於等於170{-}
 
@@ -44,7 +46,7 @@ example$name[c(T,F,T,F)] # 要=T 不要=F
 ```{r}
 str(example[c("name","height")])
 
-pick_above170 <- example$height >= 170
+pick_above170 <- example$height >= 170 # 取出符合條件的元素
 pick_above170
 example$height
 c(175, 166, 170, 160) >= 170
@@ -62,11 +64,147 @@ print(example[c("name","birthday")])
 
 pick_after98 <- example$birthday >= lubridate::ymd("1998-01-01") 
 #比大小時 兩邊class(type)需相同
+pick_after98
 example$name[pick_after98]
 ```
 
-```{r}
+# 可排序類別資料比較
+## example裡誰零用錢大於1000
 
+```{r}
+example$allowance  %in%  c("1001-2000","2000+")
+#左邊向量元素有哪些元素值是"1001-2000","2000+" 範圍內
+## %in% = belongs to
+```
+
+```{r}
+print(example[c("name","allowance")])
+class(example$allowance)
+levels(example$allowance)
+pick_allowanceOver1000 <- example$allowance >= "1001-2000"
+example$name[pick_allowanceOver1000]
+```
+
+# factor資料可進一步分成可排序, 與不可排序的 如
+
+ *可排序: 以年齡層區分的類別 以所得級距區分的類別
+ 
+ *不排序: 性別 學系
+
+# factor的設定內定為不可排序資料 如要改成可排序類別資料的特別設定。以先前已處理好的example$allowance為例
+# 改成可排序類別資料 ordered()
+
+```{r}
+example$allowance <- 
+  ordered(example$allowance)
+levels(example$allowance) #先用levels看順序有沒有排好
+example$allowance
+```
+
+# 或在設定為factor時即把levels排好 並**ordered=T**
+
+```{r}
+example$allowance <-
+  factor(
+    example$allowance,
+    levels=c("0-1000", "1001-2000", "2000+"),
+    ordered = T # 設定為可排序factor
+  )
+```
+
+```{r}
+pick_allowanceOver1000 <- example$allowance >= "1001-2000"
+pick_allowanceOver1000
+example$name[pick_allowanceOver1000]
+```
+
+## 相等 屬於
+
+`==`: 等於
+`!=`: 不等於
+
+#`==`與`!=`可使用於任何class的atomic vector, 
+# 他是在比較兩邊向量elementwise speaking下 元素值是否相同
+ 
+ 
+```{r}
+print(example[c("name","bloodType")])
+
+pick_bloodB <- (example$bloodType == "B")
+pick_bloodB
+example$name[pick_bloodB]
+```
+# = 和 <- 是一樣的
+
+#求餘數
+
+```{r}
+7 %% 3
+```
+
+#屬於
+
+```{r}
+sequenceNums <- c(11, 6, 8, 11, 12, 11, 3, 7, 10, 8)
+sequenceNums %% 2 # 求偶數 與2整除
+pick_evens <- (sequenceNums %% 2) == 0
+pick_evens
+sequenceNums[pick_evens]
+```
+
+#example裡誰來自大台北
+
+```{r}
+print(example[c("name","residence")])
+
+set_TaipeiMetro <- c("Taipei","New Taipei")
+pick_fromTaipeiMetro <- example$residence %in% set_TaipeiMetro
+pick_fromTaipeiMetro
+example$name[pick_fromTaipeiMetro]
+```
+
+```{r}
+pick_not_fromTaipeiMetro <- ! pick_fromTaipeiMetro
+# 或
+pick_not_fromTaipeiMetro <- !(example$residence %in% set_TaipeiMetro) # (..) 裡面會先運算完才做外面!的處理
+```
+
+```{r}
+pick_fromTaipeiMetro
+pick_not_fromTaipeiMetro
+```
+
+```{r}
+x2 <- c(1,NA,10)
+y2 <- c(-1,NA,20)
+
+x3 <- c(NA,"小花")
+y3 <- c(NA,"小華")
+
+class(x2)
+is.na(x2) # 找哪個位子缺失資料
+
+```
+
+```{r}
+nan
+is.nan()
+```
+
+# example裡誰喜歡美食
+
+```{r}
+print(example[c("name","hobby")])
+
+pick_loveFood <- stringr::str_detect(example$hobby,"美食") # 偵測是否出現某些字詞
+example$name[pick_loveFood]
+```
+
+```{r}
+library(stringr)
+
+str_detect(example$hobby,"美食")
+!str_detect(example$hobby,"美食") # 否定
 ```
 
 ```{r}
