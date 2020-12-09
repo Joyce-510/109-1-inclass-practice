@@ -109,6 +109,100 @@ table(ages_fctBy5)
 # 4.7.3 增加資料
 
 ```{r}
+set.seed(2020)
+ages_chr <- sample(c("4以下","5-9","10-14", "15-19"), 10, replace=T)
+ages_chr
+```
+
+```{r}
+data_fct <- factor(ages_chr)
+levels(data_fct)
+length(data_fct)
+```
+# 新增元素(電腦已知的類別文字)
+```{r}
+data_fct[[11]] <- c("10-14")
+data_fct
+data_fct[c(12, 13)] <- c("5-9","15-19")#一次增加多筆
+data_fct
+```
+## 4.7.3.2 新資料level不存在
+# 要先讓電腦知道有新類別的存在才能新增資料
+```{r}
+levels(data_fct) 
+data_fct[[14]] <- "20-24"
+data_fct[[14]]
+```
+
+```{r}
+levels(data_fct)[[5]] <- "20-24" # 在level新增一類
+levels(data_fct)
+data_fct[[14]] <- "20-24"
+data_fct
+```
+
+```{r}
+a <- c(178,176)
+names(a) <-c("John","Jack")
+a
+names(a)[[2]] <-"Bob"
+a
+```
+
+#增加類別資料千萬不能用直接用c( )進行recursive concatenate:
+
+```{r}
+# 非類別資料
+numVect <- c(2, 5, 7)
+# 新增c(6, 10)
+numVect <- c(numVect, c(6,10))
+numVect
+```
+# factor vector只要遇到c()它會還原成儲存的type值
+```{r}
+# 類別資料
+fctVector <- factor(c("a","b", "c", "a"))
+# 新增 'a', 'c'
+fctVector
+fctVector <- c(fctVector, c('a','c'))
+fctVector
+```
+
+##使用list
+#兩個相同class vector的堆疊：
+
+##c( )堆疊 會清掉level屬性
+只會攜帶元素的儲存值及一小部份的原素屬性（attributes）如names（元素名稱）。不會保留各元素的向量層次區隔，會維持atomic vector型態。
+
+
+```{r}
+a <- c(Mary=178, Jack=165)
+attr(a, "family") <- "Johnson"
+attributes(a)
+
+b <- c(Ben=170, David=172)
+attr(b, "family") <- "Jenson"
+attributes(b)
+
+a_b <- c(a, b)
+attributes(a_b)
+```
+
+##list( )堆疊
+#會攜帶元素的所有屬性（attributes）。且保留各元素的向量層次，形成各自區隔的元素值。
+
+```{r}
+fct_a <- factor(c('a','d','e'))
+fct_b <- factor(c("a","e","j"))
+
+list_ab <- 
+  list(fct_a, fct_b)
+fct_ab
+unlist(fct_ab)# 可以打破元素隔閡 unlist 合理堆疊factor方式
+#先list 在unlist
+```
+
+```{r}
 
 ```
 
